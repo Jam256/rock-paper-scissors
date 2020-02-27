@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Rock Paper Scissors</title>
+  <meta charset="UTF-8">
+</head>
+<body>
+  <h1>Rock Paper Scissors</h1>
+  <script>
+    let playerScore = 0;
+    let computerScore = 0;
+    
+    function playerPlay() {
+      let choice = prompt("Rock Paper Scissors");
+      
+      if (choice != null) {
+        choice = choice.toLowerCase();
+      }
+      
+      if (choice == "rock" || choice == "r") {
+        console.log("You played rock!");
+        return "rock";
+        
+      } else if (choice == "paper" || choice == "p") {
+        console.log("You played paper!");
+        return "paper";
+        
+      } else if (choice == "scissors" || choice == "s") {
+        console.log("You played scissors!");
+        return "scissors";
+        
+      } else {
+        console.log("Invalid input, please try again.");
+        playerPlay();
+      }
+    }
+    
+    function computerPlay() {
+      let options = ["rock", "paper", "scissors"];
+      let choice = options[Math.floor(Math.random() * options.length)];
+      console.log("Computer played " + choice + "!");
+      return choice;
+    }
+    
+    function playRound(playerSelection, computerSelection) {
+      if (playerSelection == computerSelection) {
+        console.log("Draw!");
+        
+      } else if (playerSelection == "rock") {
+        if (computerSelection == "paper") {
+          computerScore += 1;
+          console.log("Computer wins!");
+        } else if (computerSelection == "scissors") {
+          playerScore += 1;
+          console.log("You win!");
+        }
+        
+      } else if (playerSelection == "paper") {
+        if (computerSelection == "rock") {
+          playerScore += 1;
+          console.log("You win!");
+        } else if (computerSelection == "scissors") {
+          computerScore += 1;
+          console.log("Computer wins!");
+        }
+        
+      } else if (playerSelection == "scissors") {
+        if (computerSelection == "rock") {
+          computerScore += 1;
+          console.log("Computer wins!");
+        } else if (computerSelection == "paper") {
+          playerScore += 1;
+          console.log("You win!");
+        }
+      }
+    }
+    
+    function getWinner() {
+      if (playerScore == computerScore) {
+        console.log("Draw! EXTRA ROUND");
+        playRound(playerPlay(), computerPlay());
+        getWinner();
+      } else if (playerScore > computerScore) {
+        console.log("You are the winner!");
+      } else if (playerScore < computerScore) {
+        console.log("Computer is the winner!");
+      }
+    }
+    
+    function game() {
+      let roundNumber = 1;
+      console.log("Game start!");
+      let i;
+      for (i = 0; i < 5; i++) {
+        console.log("Round " + roundNumber);
+        playRound(playerPlay(), computerPlay());
+        console.log("Player: " + playerScore + " Computer: " + computerScore);
+        roundNumber += 1;
+      }
+      getWinner();
+      console.log("Game end!");
+    }
+    
+    game();
+  </script>
+</body>
+</html>
