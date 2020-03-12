@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Rock Paper Scissors</title>
+  <meta charset="UTF-8">
+  <style>
+    * {
+      padding: 0;
+      margin: 0;
+    }
+    html {
+      background-color: black;
+    }
+    body {
+      border: 1px solid lime;
+      margin: 40px;
+      padding: 20px;
+      background-color: #111;
+      color: lime;
+      font-size: 20px;
+      font-family: monospace;
+    }
+    button {
+      padding: 8px 32px;
+      margin: 8px 0px;
+      background-color: #111;
+      border: 1px solid lime;
+      color: lime;
+      font-size: 20px;
+      font-weight: bold;
+    }
+    #log {
+      width: 400px;
+      padding: 10px;
+    }
+    hr {
+      margin: 8px 0px;
+      color: lime;
+    }
+    div {
+      padding: 8px 0px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Rock Paper Scissors</h1>
+  <button id="rock">Rock</button>
+  <button id="paper">Paper</button>
+  <button id="scissors">Scissors</button>
+  <div id="score"></div>
+  <div id="winner">First to 5 wins</div>
+  <div id="log"><hr></div>
+  <script>
+    let playerScore = 0;
+    let computerScore = 0;
+    const score = document.querySelector("#score");
+    updateScore();
+    const winner = document.querySelector("#winner");
+    const log = document.querySelector("#log");
+
+    const rock = document.querySelector("#rock");
+    rock.addEventListener("click", () => {
+      playerPlay("rock");
+    });
+
+    const paper = document.querySelector("#paper");
+    paper.addEventListener("click", () => {
+      playerPlay("paper");
+    });
+
+    const scissors = document.querySelector("#scissors");
+    scissors.addEventListener("click", () => {
+      playerPlay("scissors");
+    });
+
+    function playerPlay(choice) {
+      updateLog("You played " + choice + "!");
+      playRound(choice, computerPlay());
+      drawLine();
+      updateScore();
+      getWinner();
+    }
+
+    function updateScore() {
+      score.textContent = "Player: " + playerScore + " Computer: " + computerScore;
+    }
+
+    function computerPlay() {
+      let options = ["rock", "paper", "scissors"];
+      let choice = options[Math.floor(Math.random() * options.length)];
+      updateLog("Computer played " + choice + "!");
+      return choice;
+    }
+
+    function playRound(playerSelection, computerSelection) {
+      if (playerSelection == computerSelection) {
+        updateLog("Draw!");
+
+      } else if (playerSelection == "rock") {
+        if (computerSelection == "paper") {
+          computerWin();
+        } else if (computerSelection == "scissors") {
+          playerWin();
+        }
+
+      } else if (playerSelection == "paper") {
+        if (computerSelection == "rock") {
+          playerWin();
+        } else if (computerSelection == "scissors") {
+          computerWin();
+        }
+
+      } else if (playerSelection == "scissors") {
+        if (computerSelection == "rock") {
+          computerWin();
+        } else if (computerSelection == "paper") {
+          playerWin();
+        }
+      }
+    }
+
+    function playerWin() {
+      playerScore += 1;
+      updateLog("You win!");
+    }
+
+    function computerWin() {
+      computerScore += 1;
+      updateLog("Computer wins!");
+    }
+
+    function getWinner() {
+      if (playerScore < 5 && computerScore < 5) {
+        return;
+      } else if (playerScore > 5 || computerScore > 5) {
+        return;
+      } else if (playerScore > computerScore) {
+        winner.innerText = "You are the winner!";
+      } else if (playerScore < computerScore) {
+        winner.innerText = "Computer is the winner!";
+      }
+    }
+
+    function updateLog(message) {
+      let newMessage = document.createElement("p");
+      newMessage.innerText = message;
+      log.insertBefore(newMessage, log.firstChild);
+    }
+
+    function drawLine() {
+      log.insertBefore(document.createElement("hr"), log.firstChild);
+    }
+  </script>
+</body>
+</html>
